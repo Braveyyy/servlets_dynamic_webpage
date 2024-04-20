@@ -24,8 +24,8 @@ public class UserSearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // JDBC URL, username, and password
-	private static final String JDBC_URL = "jdbc:mysql://faure.cs.colostate.edu:3306/";
-    private static final String JDBC_USERNAME = "";
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/AAOUAJASSIGN4";
+    private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,6 +35,7 @@ public class UserSearchServlet extends HttpServlet {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
+            // Registers Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -43,7 +44,7 @@ public class UserSearchServlet extends HttpServlet {
 
         try {
             // Establish database connection
-        	 connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+        	connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
 
             // Prepare SQL statement
             String sql = "SELECT * FROM Users WHERE UserName LIKE ?";
