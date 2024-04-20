@@ -1,0 +1,76 @@
+/* Overall body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Header styles */
+h1 {
+    color: #205081;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+h2 {
+    color: #0a4870;
+    border-bottom: 2px solid #0a4870;
+    padding-bottom: 10px;
+}
+
+/* Division styling for different sections */
+div {
+    background-color: white;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* Input styling */
+input[type="text"] {
+    width: calc(100% - 22px); /* Full width - padding and border */
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button styling */
+button {
+    background-color: #4CAF50; /* Green background */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+/* Result box styling */
+#searchResult, #addUserResult, #updateUserResult, #deleteUserResult {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    background-color: #e8e8e8;
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    input[type="text"], button {
+        width: 100%;
+    }
+}
