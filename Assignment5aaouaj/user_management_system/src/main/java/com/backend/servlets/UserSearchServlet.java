@@ -1,5 +1,6 @@
 package com.backend.servlets;
 
+import com.backend.servlets.JBDCinfo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -23,11 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserSearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // JDBC URL, username, and password
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/AAOUAJASSIGN4";
-    private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "";
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("userName");
         List<User> searchResult = new ArrayList<>();
@@ -44,7 +40,7 @@ public class UserSearchServlet extends HttpServlet {
 
         try {
             // Establish database connection
-        	connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+        	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // Prepare SQL statement
             String sql = "SELECT * FROM Users WHERE UserName LIKE ?";
