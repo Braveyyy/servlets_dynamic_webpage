@@ -50,9 +50,9 @@ function addUser() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            UserID: newUserID,
-            UserName: newUserName,
-            UserType: newUserType
+            userId: newUserID,
+            userName: newUserName,
+            userType: newUserType
         })
     })
         .then(response => {
