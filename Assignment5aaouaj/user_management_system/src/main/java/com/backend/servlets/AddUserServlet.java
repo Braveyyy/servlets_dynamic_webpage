@@ -40,12 +40,10 @@ public class AddUserServlet extends HttpServlet {
             throw new ServletException(e);
         }
 
-        String body = requestBody.toString();
+        String jsonBody = requestBody.toString();
+        System.out.println("*********JSONBODY STRING: *************" + jsonBody);
         Gson gson = new Gson();
-        String jsonBody = gson.toJson(body);
-        System.out.println("JSONBODY STRING: " + jsonBody);
-        // jsonBody created with data from fetch() body
-        // Now add jsonBody data to database through SQL query
+        User user = gson.fromJson(jsonBody, User.class);
         try {
             // Registers Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -56,15 +54,33 @@ public class AddUserServlet extends HttpServlet {
         	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
             
             // SQL statement
-            String sql = "INSERT INTO Users (UserID, UserName, UserType) VALUES (?)";
+            String sql = "INSERT INTO Users (UserID, UserName, UserType) VALUES (?, ?, ?)";
             statement = connection.prepareStatement(sql);
-            //statement.setString();
-            // Add to database
+
+            System.out.println("********RECEIVED USERNAME BEFORE ADDING TO SQL STATEMENT:********* " +user.getUserName());
+            
+            statement.setString(1, Integer.toString(user.getUserId()));
+            statement.setString(2, user.getUserName());
+            statement.setString(3, user.getUserType());
+
+            int result = statement.executeUpdate();
+            System.out.println("Insertion Result: " + result);
+
         
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Close resources
+            try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (connection != null) connection.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
+
+        try{
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"success\": true}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
     }
 }

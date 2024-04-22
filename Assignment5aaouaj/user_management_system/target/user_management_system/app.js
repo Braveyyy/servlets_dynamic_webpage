@@ -46,7 +46,14 @@ function addUser() {
 
     fetch('/user_management_system/addUser', {
         method: 'POST',
-        body: newUserID, newUserName, newUserType
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            UserID: newUserID,
+            UserName: newUserName,
+            UserType: newUserType
+        })
     })
         .then(response => {
             if (!response.ok) {
