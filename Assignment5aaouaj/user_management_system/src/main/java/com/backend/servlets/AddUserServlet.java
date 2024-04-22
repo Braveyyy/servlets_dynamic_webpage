@@ -57,8 +57,10 @@ public class AddUserServlet extends HttpServlet {
             String sql = "INSERT INTO Users (UserID, UserName, UserType) VALUES (?, ?, ?)";
             statement = connection.prepareStatement(sql);
 
+            System.out.println("********RECEIVED ID BEFORE ADDING TO SQL STATEMENT:********* " +user.getUserId());
             System.out.println("********RECEIVED USERNAME BEFORE ADDING TO SQL STATEMENT:********* " +user.getUserName());
-            
+            System.out.println("********RECEIVED TYPE BEFORE ADDING TO SQL STATEMENT:********* " +user.getUserType());
+
             statement.setString(1, Integer.toString(user.getUserId()));
             statement.setString(2, user.getUserName());
             statement.setString(3, user.getUserType());
