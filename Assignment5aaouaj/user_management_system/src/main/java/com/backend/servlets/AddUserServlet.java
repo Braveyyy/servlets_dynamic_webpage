@@ -24,8 +24,7 @@ public class AddUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         StringBuilder requestBody = new StringBuilder();
         String line;
-        String addUserResult = "";
-        String jsonResult = "";
+        String addUserResult, jsonResult;
         PrintWriter out = null;
         Connection connection = null;
         PreparedStatement statement = null;
@@ -78,7 +77,7 @@ public class AddUserServlet extends HttpServlet {
             statement.setString(3, user.getUserType());
 
             int result = statement.executeUpdate();
-            System.out.println("Insertion Result: " + result);
+            System.out.println("(ADD USER) Insertion Result: " + result);
             
             addUserResult = "Successfully added user to the database.";
             jsonResult = gson.toJson(addUserResult);

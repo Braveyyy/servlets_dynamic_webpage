@@ -159,11 +159,11 @@ function displayDeleteResult(message) {
 
 function addUsage() {
     var usageUserID = document.getElementById('usageUserID');
+    var usageDevice = document.getElementById('usageDevice');
     var uDate = document.getElementById('usageDate');
-    var uDevice = document.getElementById('usageDevice');
     var uDuration = document.getElementById('usageDuration');
 
-    if(usageUserID === "" || uDate === "" || uDevice === "" || uDuration === "") {
+    if(usageUserID === "" || usageDevice === "" || uDate === "" || uDuration === "") {
         alert("Missing a component, please enter the UserID, Date of Usage, DeviceID, and Usage Duration.");
         return;
     }
@@ -175,8 +175,8 @@ function addUsage() {
         },
         body: JSON.stringify({
             userId: usageUserID,
+            deviceId: usageDevice,
             usageDate: uDate,
-            usageDevice: uDevice,
             usageDuration: uDuration
         })
     })
