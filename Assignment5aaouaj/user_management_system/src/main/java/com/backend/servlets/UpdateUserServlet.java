@@ -55,7 +55,7 @@ public class UpdateUserServlet extends HttpServlet {
             idExistsStatement.setInt(1, user.getUserId());
             rs2 = idExistsStatement.executeQuery();
             if(rs2.next() && rs2.getInt(1) == 0) {
-                updateUserResult = "Existing ID doesn't exist. Please enter an existing ID#.";
+                updateUserResult = "Existing ID doesn't exist. Please enter an existing ID.";
                 jsonResult = gson.toJson(updateUserResult);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
@@ -64,7 +64,7 @@ public class UpdateUserServlet extends HttpServlet {
                 out.flush();
                 return;
             }
-            
+
             // Check to make sure new user name isn't already in use.
             String checkNameSql = "SELECT COUNT(*) FROM Users WHERE UserName = ?";
             nameDupeStatement = connection.prepareStatement(checkNameSql);

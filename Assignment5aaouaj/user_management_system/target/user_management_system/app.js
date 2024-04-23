@@ -130,9 +130,8 @@ function deleteUser() {
         return 0;
     }
 
-    fetch('/user_management_system/deleteUser', {
-        method: 'POST',
-        body: deleteUserID
+    fetch('/user_management_system/deleteUser?userId=' + deleteUserID, {
+        method: 'DELETE'
     })
         .then(response => {
             if (!response.ok) {
