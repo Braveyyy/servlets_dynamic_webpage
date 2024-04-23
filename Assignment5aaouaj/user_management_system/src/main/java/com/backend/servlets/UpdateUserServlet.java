@@ -28,6 +28,7 @@ public class UpdateUserServlet extends HttpServlet {
         PrintWriter out = null;
         Connection connection = null;
         PreparedStatement statement = null;
+        PreparedStatement nameDupeStatement = null;
 
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
@@ -49,7 +50,14 @@ public class UpdateUserServlet extends HttpServlet {
             connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // Check to make sure new user name isn't already in use.
-            // Check to make sure ID exists.
+            String checkNameSql = "SELECT COUNT(*) FROM Users WHERE UserName = ?";
+            nameDupeStatement = connection.prepareStatement(checkNameSql);
+            nameDupeStatement.setString(1, user.getUserName());
+            ResultSet rs1 = nameDupeStatement.executeQuery();
+            if(rs1.next() && rs1.getInt(1) > 0) {
+                
+            }
+            // Check to make sure ID exists.;
 
         } catch(SQLException e) {
             e.printStackTrace();
