@@ -30,6 +30,7 @@ public class AddUserServlet extends HttpServlet {
         Connection connection = null;
         PreparedStatement statement = null;
         PreparedStatement dupeStatement = null;
+        ResultSet rs = null;
         
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
@@ -56,7 +57,7 @@ public class AddUserServlet extends HttpServlet {
             dupeStatement = connection.prepareStatement(checkSql);
             dupeStatement.setInt(1, user.getUserId());
             dupeStatement.setString(2, user.getUserName());
-            ResultSet rs = dupeStatement.executeQuery();
+            rs = dupeStatement.executeQuery();
             if(rs.next() && rs.getInt(1) > 0) {
                 addUserResult = "Duplicate UserID or UserName";
                 jsonResult = gson.toJson(addUserResult);
@@ -78,8 +79,14 @@ public class AddUserServlet extends HttpServlet {
 
             int result = statement.executeUpdate();
             System.out.println("Insertion Result: " + result);
-            addUserResult = "Successfully added user to database.";
-
+            
+            addUserResult = "Successfully added user to the database.";
+            jsonResult = gson.toJson(addUserResult);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            out = response.getWriter();
+            out.print(jsonResult);
+            out.flush(); 
         
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,17 +95,9 @@ public class AddUserServlet extends HttpServlet {
         } finally {
             // Close resources
             try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (dupeStatement != null) dupeStatement.close(); } catch (SQLException e) { e.printStackTrace(); }
             try { if (connection != null) connection.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-        try{
-            jsonResult = gson.toJson(addUserResult);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            out = response.getWriter();
-            out.print(jsonResult);
-            out.flush();      
-        } catch(IOException e) {
-            e.printStackTrace();
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
 }

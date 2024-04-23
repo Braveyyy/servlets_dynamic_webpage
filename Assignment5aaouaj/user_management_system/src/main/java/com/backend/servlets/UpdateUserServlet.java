@@ -27,8 +27,8 @@ public class UpdateUserServlet extends HttpServlet {
         String updateUserResult, jsonResult;
         PrintWriter out = null;
         Connection connection = null;
-        PreparedStatement statement = null;
-        PreparedStatement nameDupeStatement = null;
+        PreparedStatement statement = null, nameDupeStatement = null, idExistsStatement = null;
+        ResultSet rs1 = null, rs2 = null;
 
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
@@ -49,21 +49,69 @@ public class UpdateUserServlet extends HttpServlet {
         try {
             connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
+            // Check to make sure ID exists.
+            String checkIdSql = "SELECT COUNT(*) FROM Users WHERE UserID = ?";
+            idExistsStatement = connection.prepareStatement(checkIdSql);
+            idExistsStatement.setInt(1, user.getUserId());
+            rs2 = idExistsStatement.executeQuery();
+            if(rs2.next() && rs2.getInt(1) == 0) {
+                updateUserResult = "Existing ID doesn't exist. Please enter an existing ID#.";
+                jsonResult = gson.toJson(updateUserResult);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                out = response.getWriter();
+                out.print(jsonResult);
+                out.flush();
+                return;
+            }
+            
             // Check to make sure new user name isn't already in use.
             String checkNameSql = "SELECT COUNT(*) FROM Users WHERE UserName = ?";
             nameDupeStatement = connection.prepareStatement(checkNameSql);
             nameDupeStatement.setString(1, user.getUserName());
-            ResultSet rs1 = nameDupeStatement.executeQuery();
+            rs1 = nameDupeStatement.executeQuery();
             if(rs1.next() && rs1.getInt(1) > 0) {
-                
+                updateUserResult = "Username already in use, please select a different one.";
+                jsonResult = gson.toJson(updateUserResult);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                out = response.getWriter();
+                out.print(jsonResult);
+                out.flush();
+                return;
             }
-            // Check to make sure ID exists.;
 
+            // Both checks complete, execute update sql query.
+            String updateSql = "UPDATE Users SET UserName = ?, UserType = ? WHERE UserID = ?";
+            statement = connection.prepareStatement(updateSql);
+    
+            statement.setString(1, user.getUserName());
+            statement.setString(2, user.getUserType());
+            statement.setInt(3, user.getUserId());
+
+            int result = statement.executeUpdate();
+            System.out.println("Update Result: " + result);
+
+            updateUserResult = "Sucessfully updated user in the database.";
+            jsonResult = gson.toJson(updateUserResult);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            out = response.getWriter();
+            out.print(jsonResult);
+            out.flush();
         } catch(SQLException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
             e.printStackTrace();
         }
         finally {
             // Close resources
+            try { if (statement != null) statement.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (nameDupeStatement != null) nameDupeStatement.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (idExistsStatement != null) idExistsStatement.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (connection != null) connection.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs1 != null) rs1.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (rs2 != null) rs2.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
 } 

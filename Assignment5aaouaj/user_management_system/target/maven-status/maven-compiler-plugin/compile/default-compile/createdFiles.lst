@@ -2,3 +2,4 @@ com\backend\servlets\AddUserServlet.class
 com\backend\servlets\UserSearchServlet.class
 com\backend\model\User.class
 com\backend\servlets\JBDCinfo.class
+com\backend\servlets\UpdateUserServlet.class

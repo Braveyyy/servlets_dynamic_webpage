@@ -90,7 +90,14 @@ function updateUser() {
 
     fetch('/user_management_system/updateUser', {
         method: 'POST',
-        body: oldUserID, updateUserName, updateUserType
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: oldUserID,
+            userName: updateUserName,
+            userType: updateUserType
+        })
     })
         .then(response => {
             if (!response.ok) {
