@@ -30,6 +30,7 @@ public class AddUserServlet extends HttpServlet {
         Connection connection = null;
         PreparedStatement statement = null;
         PreparedStatement dupeStatement = null;
+        
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
                 requestBody.append(line);
