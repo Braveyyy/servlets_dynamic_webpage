@@ -80,9 +80,9 @@ function displayAddResult(message) {
 }
 
 function updateUser() {
-    var oldUserID = document.getElementById('oldUserID').value.trim();;
-    var updateUserName = document.getElementById('updateUserName').value.trim();;
-    var updateUserType = document.getElementById('updateUserType').value.trim();;
+    var oldUserID = document.getElementById('oldUserID').value.trim();
+    var updateUserName = document.getElementById('updateUserName').value.trim();
+    var updateUserType = document.getElementById('updateUserType').value.trim();
     if(oldUserID === "" || updateUserName === "" || updateUserType === "") {
         alert("Missing a component, please enter the old ID, new username, and new user type.");
         return;
@@ -124,7 +124,7 @@ function displayUpdateResult(message) {
 }
 
 function deleteUser() {
-    var deleteUserID = document.getElementById('deleteUserID').value.trim();;
+    var deleteUserID = document.getElementById('deleteUserID').value.trim();
     if(deleteUserID === "") {
         alert("Please enter a user to be deleted.");
         return 0;
@@ -154,5 +154,52 @@ function displayDeleteResult(message) {
     }
     else{
         deleteUserResultDiv.textContent = message;
+    }
+}
+
+function addUsage() {
+    var usageUserID = document.getElementById('usageUserID').value.trim();
+    var usageDeviceID = document.getElementById('usageDeviceID').value.trim();
+    var uDate = document.getElementById('uDate').value.trim();
+    var uDuration = document.getElementById('uDuration').value.trim();
+
+    if(usageUserID === "" || usageDeviceID === "" || uDate === "" || uDuration === "") {
+        alert("Missing a component, please enter the UserID, DeviceID, Date of Usage, and Usage Duration.");
+        return;
+    }
+
+    fetch('/user_management_system/addUsage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: usageUserID,
+            deviceId: usageDeviceID,
+            usageDate: uDate,
+            usageDuration: uDuration
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        displayAddUsageResult(data)
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayAddUsageResult(message) {
+    var addUsageResultDiv = document.getElementById('addUsageResult');
+    addUsageResultDiv.innerHTML = "";
+
+    if(message.length === 0) {
+        addUsageResultDiv.textContent = "Unable to add usage.";
+    }
+    else{
+        addUsageResultDiv.textContent = message;
     }
 }
