@@ -36,6 +36,15 @@
         <button onclick="deleteUser()">Delete User</button>
         <div id="deleteUserResult"></div>
     </div>
+    <div>
+        <h2>Add Usage Record</h2>
+        <input type="text" id="usageUserID" placeholder="Enter user ID">
+        <input type="text" id="usageDate" placeholder="Enter date of usage (YYYY-MM-DD)">
+        <input type="text" id="usageDevice" placeholder="Enter device ID">
+        <input type="text" id="usageDuration" placeholder="Enter usage duration (hours)">
+        <button onclick="addUsage()">Add Usage</button>
+        <div id="addUsageResult"></div>
+    </div>
 
     <script src="app.js"></script>
 </body>

@@ -156,3 +156,50 @@ function displayDeleteResult(message) {
         deleteUserResultDiv.textContent = message;
     }
 }
+
+function addUsage() {
+    var usageUserID = document.getElementById('usageUserID');
+    var uDate = document.getElementById('usageDate');
+    var uDevice = document.getElementById('usageDevice');
+    var uDuration = document.getElementById('usageDuration');
+
+    if(usageUserID === "" || uDate === "" || uDevice === "" || uDuration === "") {
+        alert("Missing a component, please enter the UserID, Date of Usage, DeviceID, and Usage Duration.");
+        return;
+    }
+
+    fetch('/user_management_system/addUsage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: usageUserID,
+            usageDate: uDate,
+            usageDevice: uDevice,
+            usageDuration: uDuration
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        displayAddUsageResult(data)
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayAddUsageResult(message) {
+    var addUsageResultDiv = document.getElementById('addUsageResult');
+    addUsageResultDiv.innerHTML = "";
+
+    if(message.length === 0) {
+        addUsageResultDiv.textContent = "Unable to delete user.";
+    }
+    else{
+        addUsageResultDiv.textContent = message;
+    }
+}
