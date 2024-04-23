@@ -29,6 +29,7 @@ public class UserSearchServlet extends HttpServlet {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+
         try {
             // Registers Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -41,7 +42,7 @@ public class UserSearchServlet extends HttpServlet {
             // Establish database connection
         	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
-            // Prepare SQL statement
+            // SQL statement
             String sql = "SELECT * FROM Users WHERE UserName LIKE ?";
             statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + userName + "%");

@@ -203,3 +203,43 @@ function displayAddUsageResult(message) {
         addUsageResultDiv.textContent = message;
     }
 }
+
+function searchUsage() {
+    var searchUserID = document.getElementById('searchUserID').value.trim();
+    var start_date = document.getElementById('start_date').value.trim();
+    var end_date = document.getElementById('end_date').value.trim();
+
+    if(searchUserID === "" || start_date === "" || end_date === "") {
+        alert("Missing a component, please enter a UserID, Start Date, and End Date.");
+        return;
+    }
+
+    fetch('/user_management_system/searchUsage?userId=' + searchUserID + '&startDate=' + start_date + '&endDate=' + end_date)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displaySearchUsageResult(data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function displaySearchUsageResult(message) {
+    var searchUsageResultDiv = document.getElementById('searchUsageResult');
+    searchUsageResultDiv.innerHTML = "";
+
+    if (message.length === 0) {
+        searchUsageResultDiv.textContent = "No usage found.";
+    } else {
+        var usageList = document.createElement('ul');
+        message.forEach(uses => {
+            var listItem = document.createElement('li');
+            listItem.textContent = uses.userId + ': (DEVICE_ID) ' + uses.deviceId + ' (USAGE_DURATION) ' + uses.usageDuration; // Update property names according to the backend
+            usageList.appendChild(listItem);
+        });
+        searchUsageResultDiv.appendChild(usageList);
+    }
+}

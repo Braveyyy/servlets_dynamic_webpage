@@ -24,9 +24,9 @@
     </div>
     <div>
         <h2>Update User</h2>
-        <input type="text" id="oldUserID" placeholder="Old User ID">
-        <input type="text" id="updateUserName" placeholder="New User Name">
-        <input type="text" id="updateUserType" placeholder="New User Type">
+        <input type="text" id="oldUserID" placeholder="Old user ID">
+        <input type="text" id="updateUserName" placeholder="New user name">
+        <input type="text" id="updateUserType" placeholder="New user type">
         <button onclick="updateUser()">Update User</button>
         <div id="updateUserResult"></div>
     </div>
@@ -44,6 +44,14 @@
         <input type="text" id="uDuration" placeholder="Enter usage duration (hours)">
         <button onclick="addUsage()">Add Usage</button>
         <div id="addUsageResult"></div>
+    </div>
+    <div>
+        <h2>Search for User Usage within Date Range</h2>
+        <input type="text" id="searchUserID" placeholder="Enter user ID">
+        <input type="text" id="start_date" placeholder="Enter start date (YYYY-MM-DD)">
+        <input type="text" id="end_date" placeholder="Enter end date (YYYY-MM-DD)">
+        <button onclick="searchUsage()">Search</button>
+        <div id="searchUsageResult"></div>
     </div>
 
     <script src="app.js"></script>
