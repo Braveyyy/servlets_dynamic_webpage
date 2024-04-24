@@ -6,3 +6,5 @@ com\backend\servlets\UpdateUserServlet.class
 com\backend\servlets\DeleteUserServlet.class
 com\backend\servlets\UserSearchServlet.class
 com\backend\servlets\JBDCinfo.class
+com\backend\servlets\UsesSearchServlet.class
+com\backend\model\JoinedUses.class

@@ -18,7 +18,6 @@ public class Uses {
     public int getUID() {
         return userId;
     }
-
     public void setUID(int userId) {
         this.userId = userId;
     }
@@ -26,7 +25,6 @@ public class Uses {
     public int getDID() {
         return deviceId;
     }
-    
     public void setDID(int deviceId) {
         this.deviceId = deviceId;
     }
@@ -34,7 +32,6 @@ public class Uses {
     public String getUsageDate() {
         return usageDate;
     }
-
     public void setUsageDate(String usageDate) {
         this.usageDate = usageDate;
     }
@@ -42,7 +39,6 @@ public class Uses {
     public int getUsageDuration() {
         return usageDuration;
     }
-
     public void setUsageDuration(int usageDuration) {
         this.usageDuration = usageDuration;
     }

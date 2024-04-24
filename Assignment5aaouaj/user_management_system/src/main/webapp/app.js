@@ -237,7 +237,7 @@ function displaySearchUsageResult(message) {
         var usageList = document.createElement('ul');
         message.forEach(uses => {
             var listItem = document.createElement('li');
-            listItem.textContent = uses.userId + ': (DEVICE_ID) ' + uses.deviceId + ' (USAGE_DURATION) ' + uses.usageDuration; // Update property names according to the backend
+            listItem.textContent = uses.userName + ': ' + uses.deviceName + ' - ' + uses.usageDate + ' - ' + uses.usageDuration; // Update property names according to the backend
             usageList.appendChild(listItem);
         });
         searchUsageResultDiv.appendChild(usageList);
