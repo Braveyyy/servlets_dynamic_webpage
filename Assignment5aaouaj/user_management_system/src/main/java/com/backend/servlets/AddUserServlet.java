@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/addUser")
 public class AddUserServlet extends HttpServlet {
 
+    // POST Request
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        // Variables
         StringBuilder requestBody = new StringBuilder();
         String line;
         String addUserResult, jsonResult;
@@ -31,6 +33,7 @@ public class AddUserServlet extends HttpServlet {
         PreparedStatement dupeStatement = null;
         ResultSet rs = null;
         
+        // Reads request body
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
                 requestBody.append(line);
@@ -39,16 +42,18 @@ public class AddUserServlet extends HttpServlet {
             throw new ServletException(e);
         }
 
+        // Convert request body JSON into User object to easily access elements
         String jsonBody = requestBody.toString();
         Gson gson = new Gson();
         User user = gson.fromJson(jsonBody, User.class);
         try {
-            // Registers Driver
+            // Registers JBDC Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
         try {
+            // Open JBDC connection
         	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
             
             // Check for Duplicate IDs/Names
@@ -71,14 +76,16 @@ public class AddUserServlet extends HttpServlet {
             // SQL statement
             String insertSql = "INSERT INTO Users (UserID, UserName, UserType) VALUES (?, ?, ?)";
             statement = connection.prepareStatement(insertSql);
-
+            // SQL paramaters
             statement.setInt(1, user.getUserId());
             statement.setString(2, user.getUserName());
             statement.setString(3, user.getUserType());
 
+            // Run SQL statement, print results to console
             int result = statement.executeUpdate();
             System.out.println("(ADD USER) Insertion Result: " + result);
             
+            // Send JSON response to client
             addUserResult = "Successfully added user to the database.";
             jsonResult = gson.toJson(addUserResult);
             response.setContentType("application/json");

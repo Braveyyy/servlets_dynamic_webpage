@@ -1,3 +1,4 @@
+// SEARCH FOR USERS
 function searchUsers() {
     var searchInput = document.getElementById('searchInput').value.trim();
     if (searchInput === "") {
@@ -35,6 +36,7 @@ function displaySearchResult(users) {
     }
 }
 
+// ADD NEW USER
 function addUser() {
     var newUserID = document.getElementById('newUserID').value.trim();
     var newUserName = document.getElementById('newUserName').value.trim();
@@ -79,6 +81,7 @@ function displayAddResult(message) {
     }
 }
 
+// UPDATE USER
 function updateUser() {
     var oldUserID = document.getElementById('oldUserID').value.trim();
     var updateUserName = document.getElementById('updateUserName').value.trim();
@@ -123,6 +126,7 @@ function displayUpdateResult(message) {
     }
 }
 
+// DELETE USER
 function deleteUser() {
     var deleteUserID = document.getElementById('deleteUserID').value.trim();
     if(deleteUserID === "") {
@@ -157,6 +161,7 @@ function displayDeleteResult(message) {
     }
 }
 
+// ADD USAGE RECORD
 function addUsage() {
     var usageUserID = document.getElementById('usageUserID').value.trim();
     var usageDeviceID = document.getElementById('usageDeviceID').value.trim();
@@ -204,6 +209,7 @@ function displayAddUsageResult(message) {
     }
 }
 
+// SEARCH FOR USER USAGE WITHIN DATE RANGE
 function searchUsage() {
     var searchUserID = document.getElementById('searchUserID').value.trim();
     var start_date = document.getElementById('start_date').value.trim();

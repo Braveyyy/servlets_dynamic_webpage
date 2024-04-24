@@ -1,5 +1,7 @@
 package com.backend.servlets;
 
+// jbdc info enum class
+// change URL, USERNAME, and PASSWORD here
 public enum JBDCinfo {
     INSTANCE;
 

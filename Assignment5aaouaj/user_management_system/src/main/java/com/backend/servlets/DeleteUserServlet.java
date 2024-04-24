@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
 
+    // DELETE request
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        // Variables
         int userId = Integer.parseInt(request.getParameter("userId"));
         String deleteUserResult, jsonResult;
         Connection connection = null;
@@ -27,7 +29,7 @@ public class DeleteUserServlet extends HttpServlet {
         ResultSet rs1 = null;
         PrintWriter out = null;
         try {
-            // Registers Driver
+            // Registers JBDC Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -35,7 +37,7 @@ public class DeleteUserServlet extends HttpServlet {
 		}
         Gson gson = new Gson();
         try {
-            // Establish database connection
+            // Establish JBDC database connection
         	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // Check if ID exists
@@ -58,10 +60,12 @@ public class DeleteUserServlet extends HttpServlet {
             String deleteSql = "DELETE FROM Users WHERE UserID = ?";
             statement = connection.prepareStatement(deleteSql);
             statement.setInt(1, userId);
-
+            
+            // Execute SQL statement, print results to console
             int deletedUserRows = statement.executeUpdate();
-            System.out.println("User Rows Deleted: " + deletedUserRows);
+            System.out.println("(DELETE USER) User Rows Deleted: " + deletedUserRows);
 
+            // Send JSON response to client
             deleteUserResult = "Successfuly deleted user in the database.";
             jsonResult = gson.toJson(deleteUserResult);
             response.setContentType("application/json");

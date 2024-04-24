@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 public class UserSearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    // GET request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Variables
         String userName = request.getParameter("userName");
         List<User> searchResult = new ArrayList<>();
         Connection connection = null;
@@ -31,7 +33,7 @@ public class UserSearchServlet extends HttpServlet {
         ResultSet resultSet = null;
 
         try {
-            // Registers Driver
+            // Registers JBDC Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -39,7 +41,7 @@ public class UserSearchServlet extends HttpServlet {
 		}
 
         try {
-            // Establish database connection
+            // Establish JBDC database connection
         	connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // SQL statement
@@ -73,7 +75,6 @@ public class UserSearchServlet extends HttpServlet {
         // Convert searchResult to JSON and send as response
         Gson gson = new Gson();
         String jsonResult = gson.toJson(searchResult);
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/searchUsage")
 public class UsesSearchServlet extends HttpServlet {
 
+    // GET Request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Variables
         int userId = Integer.parseInt(request.getParameter("userId"));
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
@@ -32,7 +34,7 @@ public class UsesSearchServlet extends HttpServlet {
         ResultSet resultSet = null;
 
         try {
-            // Registers Driver
+            // Registers JBDC Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -40,7 +42,7 @@ public class UsesSearchServlet extends HttpServlet {
 		}
 
         try {
-            // Establish database connection
+            // Establish JBDC database connection
             connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // SQL statement
@@ -79,7 +81,6 @@ public class UsesSearchServlet extends HttpServlet {
         // Convert searchResult to JSON and send as response
         Gson gson = new Gson();
         String jsonResult = gson.toJson(searchUsageResult);
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

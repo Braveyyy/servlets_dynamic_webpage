@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/updateUser")
 public class UpdateUserServlet extends HttpServlet {
 
+    // POST Request
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        // Variables
         StringBuilder requestBody = new StringBuilder();
         String line;
         String updateUserResult, jsonResult;
@@ -30,6 +32,7 @@ public class UpdateUserServlet extends HttpServlet {
         PreparedStatement statement = null, nameDupeStatement = null, idExistsStatement = null;
         ResultSet rs1 = null, rs2 = null;
 
+        // Reads request body
         try (BufferedReader reader = request.getReader()) {
             while((line = reader.readLine()) != null) {
                 requestBody.append(line);
@@ -38,15 +41,17 @@ public class UpdateUserServlet extends HttpServlet {
             throw new ServletException(e);
         }
 
+        // Convert request body JSON into User object to easily access elements
         Gson gson = new Gson();
         User user = gson.fromJson(requestBody.toString(), User.class);
         try {
-            // Registers Driver
+            // Registers JBDC Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
         try {
+            // Open JBDC connection
             connection = DriverManager.getConnection(JBDCinfo.getUrl(), JBDCinfo.getUsername(), JBDCinfo.getPassword());
 
             // Check to make sure ID exists.
@@ -81,17 +86,19 @@ public class UpdateUserServlet extends HttpServlet {
                 return;
             }
 
-            // Both checks complete, execute update sql query.
+            // Both checks complete, SQL update statement.
             String updateSql = "UPDATE Users SET UserName = ?, UserType = ? WHERE UserID = ?";
             statement = connection.prepareStatement(updateSql);
-    
+            // SQL paramaters
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getUserType());
             statement.setInt(3, user.getUserId());
 
+            // Run SQL statement, print results to console
             int result = statement.executeUpdate();
-            System.out.println("Update Result: " + result);
+            System.out.println("(UPDATE USER) Update Result: " + result);
 
+            // Send JSON response to client
             updateUserResult = "Sucessfully updated user in the database.";
             jsonResult = gson.toJson(updateUserResult);
             response.setContentType("application/json");

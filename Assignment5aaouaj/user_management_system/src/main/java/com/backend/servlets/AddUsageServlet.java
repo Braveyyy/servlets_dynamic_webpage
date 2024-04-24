@@ -55,7 +55,7 @@ public class AddUsageServlet extends HttpServlet {
             // SQL statement
             String usageSql = "INSERT INTO Uses (UserID, DeviceID, UsageDate, UsageDuration) VALUES (?, ?, ?, ?)";
             statement = connection.prepareStatement(usageSql);
-
+            // SQL paramaters
             statement.setInt(1, uses.getUID());
             statement.setInt(2, uses.getDID());
             statement.setString(3, uses.getUsageDate());
