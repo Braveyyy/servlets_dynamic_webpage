@@ -31,7 +31,7 @@ div {
 
 /* Input styling */
 input[type="text"] {
-    width: calc(100% - 22px); /* Full width - padding and border */
+    width: calc(100% - 22px);
     padding: 10px;
     margin: 10px 0;
     box-sizing: border-box;
@@ -41,7 +41,7 @@ input[type="text"] {
 
 /* Button styling */
 button {
-    background-color: #4CAF50; /* Green background */
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -56,11 +56,11 @@ button {
 }
 
 button:hover {
-    background-color: #45a049; /* Darker green */
+    background-color: #45a049;
 }
 
 /* Result box styling */
-#searchResult, #addUserResult, #updateUserResult, #deleteUserResult {
+#searchResult, #addUserResult, #updateUserResult, #deleteUserResult, #addUsageResult, #searchUsageResult {
     padding: 10px;
     margin-top: 10px;
     border: 1px solid #ccc;
